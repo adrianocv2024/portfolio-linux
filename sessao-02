@@ -1,0 +1,15 @@
+# Auditoria de Sistemas Linux e Análise Avançada de Logs
+
+## 1. Dados do Comprometimento
+* **IP do Atacante:** 192.168.129.7
+* **Hora do Ataque (Timestamp):** 2026-06-03T06:24:48.786781+00:00
+* **Utilizador Compromitido:** root
+
+## 2. Linha Temporal (Timeline)
+* **Fase de Força Bruta:** Múltiplas tentativas de login falhadas registadas no ficheiro de segurança antigo (`auth.log.4.gz`).
+* **Fase de Sucesso:** Às 06:24:48 do dia 03 de Junho de 2026, o atacante conseguiu autenticar-se com sucesso através de uma chave pública (Accepted publickey) para o utilizador de sistema mais privilegiado (`root`).
+
+## 3. Evidência Digital (Excertos de Logs)
+\`\`\`text
+2026-06-03T06:24:48.786781+00:00 ip-10-80-86-85 sshd[40775]: Accepted publickey for root from 192.168.129.7 port 50308 ssh2: RSA SHA256:enbdLmr9/veztVyMgW7Ym5HV/IaIUg3OCSl6RGm98Gw
+\`\`\`
