@@ -1,0 +1,65 @@
+# 🛡️ Relatório de Auditoria de Segurança com Lynis
+
+**Curso:** Reskilling — Linux e Cibersegurança  
+**Módulo:** Linux e Cibersegurança  
+**Objetivo:** OA5 Criar — Análise de Vulnerabilidades em Linux e Ferramentas de Auditoria  
+**Ferramenta:** Lynis 3.0.9 (Ambiente: KillerCoda Ubuntu Playground - Ubuntu 24.04)
+
+---
+
+## 1. Métricas da Auditoria (Resultados Iniciais)
+
+Após a execução da auditoria técnica automatizada com o comando `sudo lynis audit system`, foram registados os seguintes indicadores:
+
+| Métrica | Valor Obtido |
+| :--- | :--- |
+| **Hardening Score** | `60` |
+| **Warnings (Avisos)** | `1` |
+| **Suggestions (Sugestões)** | `50` |
+
+---
+
+## 2. Avisos e Sugestões Detetados
+
+### ⚠️ Warnings (Avisos Críticos)
+* **[PKGS-7392]:** Encontrados pacotes de software com vulnerabilidades conhecidas no sistema.
+
+### 💡 Suggestions Relevantes
+* **Authentication:** `PAM password strength tools` — Falta de módulos para validar e exigir palavras-passe fortes.
+* **Filesystem:** `Checking /home, /tmp, /var mount points` — Pontos de montagem sem partições dedicadas ou sem opções estritas de segurança.
+
+---
+
+## 3. Medidas Corretivas (Sugestões Selecionadas)
+
+Com base nas recomendações do Lynis e na base de dados Cisofy, foram detalhadas as seguintes correções:
+
+### Sugestão 1 — Autenticação (Authentication)
+* **ID / Teste:** `AUTH-9286 - PAM password strength tools`
+* **Descrição da Vulnerabilidade:** O sistema não possui um módulo PAM para validar a complexidade das palavras-passe criadas pelos utilizadores.
+* **Medida Corretiva Proposta:**  
+  1. Instalar o módulo de qualidade de password:
+     ```bash
+     sudo apt install libpam-pwquality -y
+     ```
+  2. Ajustar os parâmetros de comprimento mínimo e complexidade de carateres no ficheiro `/etc/security/pwquality.conf`.
+
+### Sugestão 2 — Sistema de Ficheiros (Filesystem)
+* **ID / Teste:** `FILE-7524 / FSTAB-1020 - Mount options for /tmp`
+* **Descrição da Vulnerabilidade:** O diretório temporário `/tmp` não está isolado numa partição com restrições de segurança (`noexec`, `nosuid`, `nodev`), permitindo a execução inadvertida de binários/scripts temporários.
+* **Medida Corretiva Proposta:**  
+  1. Configurar a partição temporária com restrições no ficheiro `/etc/fstab`:
+     ```text
+     tmpfs /tmp tmpfs defaults,noexec,nosuid,nodev 0 0
+     ```
+  2. Aplicar as alterações remontando o diretório:
+     ```bash
+     sudo mount -o remount /tmp
+     ```
+
+---
+
+## 4. Excerto do Log de Auditoria (`/var/log/lynis-report.dat`)
+
+```text
+hardening_index=60
