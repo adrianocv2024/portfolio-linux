@@ -1,0 +1,30 @@
+Port 22
+Protocol 2
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+
+# Autenticação e Controlo de Acesso
+PermitRootLogin no
+PubkeyAuthentication yes
+PasswordAuthentication no
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+UsePAM yes
+
+# Limites de Sessão
+MaxAuthTries 3
+MaxSessions 2
+ClientAliveInterval 300
+ClientAliveCountMax 2
+LoginGraceTime 30
+
+# Recursos Desativados
+X11Forwarding no
+AllowTcpForwarding no
+AllowStreamLocalForwarding no
+
+# Logging
+SyslogFacility AUTH
+LogLevel VERBOSE
+
+Subsystem sftp /usr/lib/openssh/sftp-server
