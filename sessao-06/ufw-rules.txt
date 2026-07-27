@@ -1,0 +1,10 @@
+```text
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW IN    Anywhere                  # Acesso SSH Seguro
+22/tcp (v6)                ALLOW IN    Anywhere (v6)             # Acesso SSH IPv6
